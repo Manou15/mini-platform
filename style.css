@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: monospace;
+}
+
+canvas {
+  display: none;
+  margin: 0 auto;
+}
+
+h1 {
+  margin-top: 10rem;
+  font-size: 3rem;
+}
+
+#game-container {
+  background-image: url(/assets/images/background.png);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+span {
+  color: rgb(128, 128, 22);
+}
+
+#startBtn {
+  color: rgb(223, 223, 58);
+  font-weight: bold;
+  font-size: 2em;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 15px;
+  background-color: hsl(0, 0%, 0%);
+  transition: 0.4s ease;
+}
+
+#startBtn:hover {
+  background-color: hsl(0, 0%, 20%);
+  color: rgb(255, 255, 32);
+  transform: scale(1.2);
+}
