@@ -14,8 +14,15 @@ const config = {
   },
 };
 
+let max = config.width / 2;
+let min = config.width / 2;
+
 let cursor;
 let player;
+let score = 0;
+let scoreDisplay;
+
+const winDisplay = document.getElementById('winCondition');
 const game = new Phaser.Game(config);
 
 function preload() {
@@ -27,6 +34,7 @@ function preload() {
   this.load.image("right1", "assets/images/right1.png");
   this.load.image("right2", "assets/images/right2.png");
   this.load.image("right", "assets/images/right.png");
+  this.load.image("coin", "assets/images/coin.png");
 }
 
 function create() {
@@ -53,6 +61,7 @@ function create() {
   //   repeat: -1,
   // });
 
+
   const sky = this.add.sprite(0, 0, "sky");
   sky.setPosition(config.width / 2, config.height / 2);
   sky.setScale(2);
@@ -71,6 +80,25 @@ function create() {
   platforms.add(ground2);
 
   this.physics.add.collider(player, platforms);
+
+const coin = this.physics.add.sprite(
+  randomNumber(100, config.width - 100),
+  randomNumber(100, config.height - 200),
+  "coin"
+);
+coin.setImmovable(true); 
+  coin.body.allowGravity = false;
+  
+  this.physics.add.overlap(player, coin, collectCoin, null, this);
+
+  scoreDisplay = this.add.text(config.width - 200, 30, "Score: 0", {
+    fontFamily: "monospace",
+    fontSize: "32px",
+    fill: "#fff"
+  });
+
+
+
 }
 
 function update() {
@@ -103,3 +131,50 @@ startBtn.addEventListener("click", () => {
   canvas.style.display = "block";
   gameContainer.style.display = "none";
 });
+
+function randomNumber(max, min) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+console.log(randomNumber(10, 5));
+function collectCoin(player, coin) {
+  coin.disableBody(true, true);
+
+
+  score += 1;
+  scoreDisplay.setText("Score: " + score);
+
+
+  if (score < 3) {
+    const newX = randomNumber(100, config.width - 100);
+    const newY = randomNumber(100, config.height - 200);
+    coin.enableBody(true, newX, newY, true, true);
+  } else {
+  
+    winGame.call(this); 
+  }
+
+  console.log("Coin ramassée !");
+}
+
+function winGame() {
+  
+  winDisplay.style.display = "block";
+
+  
+  player.setVelocity(0);
+  player.body.moves = false;
+
+  
+  cursor.left.reset();
+  cursor.right.reset();
+  cursor.up.reset();
+  cursor.down.reset();
+
+  
+  this.physics.pause();
+
+  // 
+  player.setTint(0x00ff00);
+
+  console.log("Victoire !");
+}
