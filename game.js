@@ -135,7 +135,8 @@ startBtn.addEventListener("click", () => {
 function randomNumber(max, min) {
   return Math.floor(Math.random() * (max - min) + min);
 }
-console.log(randomNumber(10, 5));
+
+
 function collectCoin(player, coin) {
   coin.disableBody(true, true);
 
